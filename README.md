@@ -82,10 +82,10 @@ Detalhamento completo dos 7 itens (comandos + saídas): ver [`ex3-1.md`](./ex3-1
 | 3 | `kubectl get svc,endpoints` — 3 Services com 3 endpoints cada | ![Print 3](./images/ex3-2/Print%203%20deve%20mostrar%20os%203%20Services%20e%2C%20em%20cada%20Endpoints%20correspondente%2C%20os%203%20IPs%20de%20pod%20na%20porta%208000.jpeg) |
 | 4 | `kubectl get endpointslices` | ![Print 4](./images/ex3-2/Print%204%20EndpointSlices.jpeg) |
 | 5 | `nslookup` dos três Services | ![Print 5](./images/ex3-2/Print%205%20as%20tr%C3%AAs%20sa%C3%ADdas%20de%20nslookup.jpeg) |
-| 6 | Distribuição das 12 requisições entre os 3 Pods | ![Print 6](./images/ex3-2/Print%206%20distribui%C3%A7%C3%A3o%20(deve%20ficar%20espalhada%20entre%20store-api%2C%20store-api-2%2C%20store-api-3%2C%20j%C3%A1%20que%20o%20iptables%20faz%20round-robin%C3%A1nd%C3%B4mico%20sem%20afinidade).jpeg) |
+| 6 | Distribuição das 12 requisições entre os 3 Pods | ![Print 6](./images/ex3-2/print6.jpeg) |
 | 7 | Acesso externo via NodePort (`minikube service --url`) | ![Print 7](./images/ex3-2/Print%207%20a%20URL%20gerada%20%2B%20resposta%20do%20curl.jpeg) |
 | 8 | Falha do nome curto cross-namespace e sucesso do FQDN | ![Print 8](./images/ex3-2/Print%208%20primeiro%20comando%20falhando%20(timeoutDNS%20not%20found)%2C%20segundo%20funcionando.jpeg) |
-| 9 | Com `sessionAffinity: ClientIP`, as 12 requisições vão para o mesmo Pod | ![Print 9](./images/ex3-2/Print%209%20agora%20as%2012%20respostas%20devem%20vir%20todas%20do%20mesmo%20hostnamepod%2C%20porque%20o%20sessionAffinity%20ClientIP%20faz%20o%20kube-proxy%20fixar%20as%20requisi%C3%A7%C3%B5es%20de%20um%20mesmo%20IP%20de%20origem%20sempre%20no%20mesmo%20endpoint%20(por%20padr%C3%A3o%2C%20por%20at%C3%A9.jpeg) |
+| 9 | Com `sessionAffinity: ClientIP`, as 12 requisições vão para o mesmo Pod | ![Print 9](./images/ex3-2/print9.jpeg) |
 
 ### Principais conclusões
 
@@ -109,7 +109,7 @@ Detalhamento completo (comandos + saídas + explicações): ver [`ex3-2.md`](./e
 |---|---|---|
 | 1 | Defeito (i): erro de parser YAML (indentação) | ![Print 1](./images/ex3-3/Print%201%20essa%20mensagem%20de%20erro.jpeg) |
 | 2 | Defeito (ii): campo desconhecido `livenessprobe` | ![Print 2](./images/ex3-3/Print%202%20Corre%C3%A7%C3%A3o%20livenessprobe%20%E2%86%92%20livenessProbe%20(camelCase%20correto)%2C%20e%20trocar%20port%208000%20por%20port%20http%20para%20casar%20com%20a%20boa%20pr%C3%A1tica%20do%203.1%20(n%C3%A3o%20%C3%A9%20obrigat%C3%B3rio%2C%20mas%20%C3%A9%20consistente)..jpeg) |
-| 3 | Defeito (iii): `apiVersion: extensions/v1beta1` inválida para Service | ![Print 3](./images/ex3-3/Print%203%20Corre%C3%A7%C3%A3o%20apiVersion%20extensionsv1beta1%20%E2%86%92%20apiVersion%20v1%20(Service%20sempre%20foi%20v1%3B%20extensionsv1beta1%20nunca%20existiu%20para%20Service%20%E2%80%94%20esse%20grupo%20era%20usado%20por%20recursos%20antigos%20como%20IngressDeployment%20em%20vers%C3%B5es%20be.jpeg) |
+| 3 | Defeito (iii): `apiVersion: extensions/v1beta1` inválida para Service | ![Print 3](./images/ex3-3/print3.jpeg) |
 | 4 | Dry-run passando após corrigir (i), (ii) e (iii) | ![Print 4](./images/ex3-3/Print%204%20Dry-run%20passando.jpeg) |
 | 5 | Defeito (iv): `Endpoints` vazio por selector divergente (`env: prod` vs `env: dev`) | ![Print 5](./images/ex3-3/Print%205%20repare%20que%20o%20Service%20aparece%20criado%2C%20mas%20o%20ENDPOINTS%20dele%20fica%20none%20%E2%80%94%20mesmo%20o%20Pod%20estando%20Running.%20Isso%20%C3%A9%20o%20defeito%20(iv)%20o%20selector%20do%20Service%20pede%20env%20prod%2C%20mas%20o%20label%20do%20Pod%20%C3%A9%20env%20dev.%20Nenhuma%20mensagem%20de.jpeg) |
 | 6 | Defeito (v): `curl` trava/timeout por `targetPort: 9000` incorreto | ![Print 6](./images/ex3-3/Print%206%20esse%20curl%20deve%20travardar%20timeout%20%E2%80%94%20porque%20nada%20est%C3%A1%20escutando%20na%20porta%209000%20dentro%20do%20container%20(a%20app%20escuta%20em%208000).%20Isso%20%C3%A9%20o%20defeito%20(v)%20nenhum%20erro%20no%20apply%2C%20o%20problema%20s%C3%B3%20aparece%20em%20tempo%20de%20execu%C3%A7.jpeg) |
@@ -185,4 +185,6 @@ kubectl apply -f pod-store-api-full.yaml
 
 ## Autor
 
-Atividade prática desenvolvida para a disciplina de Docker/Kubernetes — CP1.
+**Nickolas Corazza**
+RM562265
+Docker-CP1
